@@ -1,0 +1,21 @@
+# Environment variables - JANGAN DI-COMMIT
+.env
+.env.local
+
+# Uploaded images (lokal saja, tidak perlu di-push)
+assets/img/*.jpg
+assets/img/*.jpeg
+assets/img/*.png
+assets/img/*.gif
+!assets/img/default.jpg
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+*.log
+
+# Dokumen yang tidak perlu di-deploy
+dokumen pendukung ukktp.docx

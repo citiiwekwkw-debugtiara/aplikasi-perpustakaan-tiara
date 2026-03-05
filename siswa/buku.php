@@ -65,8 +65,11 @@ $books = mysqli_query($koneksi, $query);
                 <?php while($b = mysqli_fetch_assoc($books)): ?>
                 <div class="book-item">
                     <div class="book-cover">
-                        <?php if($b['gambar'] && $b['gambar'] != 'default.jpg' && file_exists("../assets/img/" . $b['gambar'])): ?>
-                            <img src="../assets/img/<?php echo $b['gambar']; ?>" alt="<?php echo $b['judul']; ?>">
+                        <?php 
+                        $img = $b['gambar'];
+                        if($img && $img !== 'default.jpg' && (strpos($img, 'http://') === 0 || strpos($img, 'https://') === 0)):
+                        ?>
+                            <img src="<?php echo htmlspecialchars($img); ?>" alt="<?php echo htmlspecialchars($b['judul']); ?>">
                         <?php else: ?>
                             <div style="font-size: 2rem;">📖</div>
                         <?php endif; ?>

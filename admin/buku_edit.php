@@ -15,24 +15,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stok = $_POST['stok'];
     $kategori = $_POST['kategori'];
 
-    // Handle Image Update
+    // Gambar dari URL (tidak ada upload file karena Vercel tidak mendukung penyimpanan lokal)
     $gambar = $data['gambar'];
-    if (isset($_FILES['gambar']) && $_FILES['gambar']['error'] == 0) {
-        $target_dir = "../assets/img/";
-        $file_extension = pathinfo($_FILES["gambar"]["name"], PATHINFO_EXTENSION);
-        $new_filename = time() . '_' . uniqid() . '.' . $file_extension;
-        $target_file = $target_dir . $new_filename;
-        
-        $allowed_types = ['jpg', 'jpeg', 'png', 'gif'];
-        if (in_array(strtolower($file_extension), $allowed_types)) {
-            if (move_uploaded_file($_FILES["gambar"]["tmp_name"], $target_file)) {
-                // Delete old image if it exists and is not default
-                if ($data['gambar'] != 'default.jpg' && file_exists($target_dir . $data['gambar'])) {
-                    unlink($target_dir . $data['gambar']);
-                }
-                $gambar = $new_filename;
-            }
-        }
+    if (!empty($_POST['gambar_url'])) {
+        $gambar = $_POST['gambar_url'];
     }
 
     $query_update = "UPDATE buku SET judul='$judul', penulis='$penulis', penerbit='$penerbit', tahun='$tahun', stok='$stok', kategori='$kategori', gambar='$gambar' WHERE id_buku='$id'";
@@ -69,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <h2 style="margin-bottom: 1.5rem;">Edit Buku</h2>
             
             <div class="form-card">
-                <form action="" method="POST" enctype="multipart/form-data">
+                <form action="" method="POST">
                     <div class="form-group">
                         <label class="form-label">Judul Buku</label>
                         <input type="text" name="judul" class="form-input" value="<?php echo $data['judul']; ?>" required>
@@ -95,10 +81,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <input type="number" name="stok" class="form-input" value="<?php echo $data['stok']; ?>" required>
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Gambar Sampul (Kosongkan jika tidak ingin mengubah)</label>
-                        <input type="file" name="gambar" class="form-input">
-                        <?php if($data['gambar'] != 'default.jpg'): ?>
-                            <img src="../assets/img/<?php echo $data['gambar']; ?>" width="100" style="margin-top: 10px; border-radius: 5px;">
+                        <label class="form-label">URL Gambar Sampul (Kosongkan jika tidak ingin mengubah)</label>
+                        <input type="text" name="gambar_url" class="form-input" placeholder="https://contoh.com/gambar.jpg" value="<?php echo ($data['gambar'] !== 'default.jpg') ? htmlspecialchars($data['gambar']) : ''; ?>">
+                        <?php if(!empty($data['gambar']) && $data['gambar'] !== 'default.jpg'): ?>
+                            <img src="<?php echo htmlspecialchars($data['gambar']); ?>" width="100" style="margin-top: 10px; border-radius: 5px; object-fit: cover;">
                         <?php endif; ?>
                     </div>
                     <button type="submit" class="btn btn-primary">Update Buku</button>

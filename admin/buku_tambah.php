@@ -10,21 +10,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stok = $_POST['stok'];
     $kategori = $_POST['kategori'];
 
-    // Handle Image Upload
-    $gambar = "default.jpg"; // Default value
-    if (isset($_FILES['gambar']) && $_FILES['gambar']['error'] == 0) {
-        $target_dir = "../assets/img/";
-        $file_extension = pathinfo($_FILES["gambar"]["name"], PATHINFO_EXTENSION);
-        $new_filename = time() . '_' . uniqid() . '.' . $file_extension;
-        $target_file = $target_dir . $new_filename;
-        
-        $allowed_types = ['jpg', 'jpeg', 'png', 'gif'];
-        if (in_array(strtolower($file_extension), $allowed_types)) {
-            if (move_uploaded_file($_FILES["gambar"]["tmp_name"], $target_file)) {
-                $gambar = $new_filename;
-            }
-        }
-    }
+    // Gambar dari URL (tidak ada upload file karena Vercel tidak mendukung penyimpanan lokal)
+    $gambar = !empty($_POST['gambar_url']) ? $_POST['gambar_url'] : 'default.jpg';
 
     $query = "INSERT INTO buku (judul, penulis, penerbit, tahun, stok, kategori, gambar) VALUES ('$judul', '$penulis', '$penerbit', '$tahun', '$stok', '$kategori', '$gambar')";
     
@@ -79,8 +66,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <input type="number" name="stok" class="form-input" required>
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Gambar Sampul</label>
-                        <input type="file" name="gambar" class="form-input">
+                        <label class="form-label">URL Gambar Sampul (Opsional)</label>
+                        <input type="text" name="gambar_url" class="form-input" placeholder="https://contoh.com/gambar.jpg">
+                        <small style="color: #94a3b8; font-size: 0.8rem;">Masukkan URL gambar dari internet. Kosongkan jika tidak ada gambar.</small>
                     </div>
                     <button type="submit" class="btn btn-primary">Simpan Buku</button>
                     <a href="buku.php" class="btn" style="background: #e2e8f0; color: #475569; margin-left: 0.5rem;">Batal</a>
