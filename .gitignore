@@ -8,6 +8,7 @@ assets/img/*.jpeg
 assets/img/*.png
 assets/img/*.gif
 !assets/img/default.jpg
+!assets/img/logo.jpg
 
 # OS files
 .DS_Store
