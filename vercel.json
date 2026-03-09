@@ -4,18 +4,17 @@
       "runtime": "vercel-php@0.7.2"
     }
   },
-  "rewrites": [
+  "routes": [
     {
-      "source": "/assets/(.*)",
-      "destination": "/assets/$1"
+      "src": "/assets/(.*)",
+      "dest": "/assets/$1"
     },
     {
-      "source": "/(.*\\.php)$",
-      "destination": "/$1"
+      "handle": "filesystem"
     },
     {
-      "source": "/(.*)",
-      "destination": "/index.php"
+      "src": "/(.*)",
+      "dest": "/index.php"
     }
   ]
 }

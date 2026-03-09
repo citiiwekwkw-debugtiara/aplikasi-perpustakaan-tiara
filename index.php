@@ -28,7 +28,8 @@ if(isset($_SESSION['user_id'])) {
                 </div>
             </div>
             <div class="login-form-container">
-                <div style="margin-bottom: 2rem;">
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <img src="assets/img/logo.jpg" alt="Logo" style="width: 100px; height: auto; margin-bottom: 1.5rem;">
                     <h1 style="font-size: 1.8rem; margin-bottom: 0.5rem;">Selamat Datang Kembali</h1>
                     <p style="color: var(--text-light);">Silakan masuk ke akun Anda</p>
                 </div>
