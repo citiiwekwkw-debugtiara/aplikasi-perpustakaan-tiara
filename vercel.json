@@ -1,6 +1,10 @@
 {
   "builds": [
     {
+      "src": "assets/**/*",
+      "use": "@vercel/static"
+    },
+    {
       "src": "**/*.php",
       "use": "vercel-php@0.7.2"
     }
@@ -8,10 +12,8 @@
   "routes": [
     {
       "src": "/assets/(.*)",
-      "dest": "/assets/$1"
-    },
-    {
-      "handle": "filesystem"
+      "dest": "/assets/$1",
+      "continue": true
     },
     {
       "src": "/(.*)",
